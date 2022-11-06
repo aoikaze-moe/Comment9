@@ -4,6 +4,10 @@
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
     <!--调整组件顺序-->
+    <div>
+      <h2 class="sender-title">弹幕发送页</h2>
+      <h3 class="dender-subtitle">↓在这里发送弹幕↓</h3>
+    </div>
     <el-row type="flex" justify="center" align="middle">
       <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
         <el-input
