@@ -14,7 +14,6 @@ RUN if [ "$USE_CHINA_NPM_REGISTRY" = 1 ]; then \
   echo 'use npm mirror'; yarn config set registry https://registry.npm.taobao.org; \
   fi;
 
-RUN yarn config set strict-ssl false && yarn config set registry https://registry.npmjs.org
 RUN yarn install
 RUN yarn build
 
