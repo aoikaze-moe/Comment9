@@ -3,91 +3,7 @@
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
-
-    <div id="damaku-player" class="damaku-player">
-      <h1>{{ activityName }}</h1>
-      <Tinder
-        ref="tinder"
-        key-name="id"
-        :queue.sync="queue"
-        :offset-y="10"
-        @submit="onSubmit"
-      >
-        <template slot-scope="scope">
-          <div class="card">
-            <img
-              class="card-avater"
-              :src="
-                scope.data.userimg
-                  ? scope.data.userimg
-                  : $rootPath + '/img/avater.png'
-              "
-            />
-            <div class="card-comment">
-              <div class="card-head">
-                {{ scope.data.username }}
-              </div>
-              <div class="card-meta">
-                {{ scope.data.userid }}
-                <el-tag size="medium" color="#f1b8e4" class="card-tag"
-                  >#{{ scope.data.id }}</el-tag
-                >
-                <el-tag size="medium" color="#f1ccb8" class="card-tag">{{
-                  scope.data.modeText
-                }}</el-tag>
-                <el-tag size="medium" color="#f1f1b8" class="card-tag">{{
-                  scope.data.size
-                }}</el-tag>
-                <el-tag size="medium" color="#b8f1ed" class="card-tag">{{
-                  scope.data.timeText
-                }}</el-tag>
-              </div>
-              <div class="card-content">
-                {{ scope.data.text }}
-              </div>
-            </div>
-          </div>
-        </template>
-        <img
-          class="like-pointer"
-          slot="like"
-          :src="$rootPath + '/img/tinder/like-txt.png'"
-        />
-        <img
-          class="nope-pointer"
-          slot="nope"
-          :src="$rootPath + '/img/tinder/nope-txt.png'"
-        />
-        <img
-          class="rewind-pointer"
-          slot="rewind"
-          :src="$rootPath + '/img/tinder/rewind-txt.png'"
-        />
-      </Tinder>
-      <div class="btns">
-        <img
-          :src="$rootPath + '/img/tinder/rewind.png'"
-          @click="decide('rewind')"
-          style="width: 53px"
-        />
-        <img
-          :src="$rootPath + '/img/tinder/nope.png'"
-          @click="decide('nope')"
-          style="width: 65px"
-        />
-        <img
-          :src="$rootPath + '/img/tinder/like.png'"
-          @click="decide('like')"
-          style="width: 65px"
-        />
-        <img
-          :src="$rootPath + '/img/tinder/super-like.png'"
-          @click="decide('super')"
-          style="width: 53px"
-        />
-      </div>
-      <div id="damaku-container" class="damaku-container"></div>
-    </div>
+    <!--调整组件顺序-->
     <el-row type="flex" justify="center" align="middle">
       <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
         <el-input
@@ -188,6 +104,91 @@
         </el-input>
       </el-col>
     </el-row>
+    <div id="damaku-player" class="damaku-player">
+      <h1>{{ activityName }}</h1>
+      <Tinder
+        ref="tinder"
+        key-name="id"
+        :queue.sync="queue"
+        :offset-y="10"
+        @submit="onSubmit"
+      >
+        <template slot-scope="scope">
+          <div class="card">
+            <img
+              class="card-avater"
+              :src="
+                scope.data.userimg
+                  ? scope.data.userimg
+                  : $rootPath + '/img/avater.png'
+              "
+            />
+            <div class="card-comment">
+              <div class="card-head">
+                {{ scope.data.username }}
+              </div>
+              <div class="card-meta">
+                {{ scope.data.userid }}
+                <el-tag size="medium" color="#f1b8e4" class="card-tag"
+                  >#{{ scope.data.id }}</el-tag
+                >
+                <el-tag size="medium" color="#f1ccb8" class="card-tag">{{
+                  scope.data.modeText
+                }}</el-tag>
+                <el-tag size="medium" color="#f1f1b8" class="card-tag">{{
+                  scope.data.size
+                }}</el-tag>
+                <el-tag size="medium" color="#b8f1ed" class="card-tag">{{
+                  scope.data.timeText
+                }}</el-tag>
+              </div>
+              <div class="card-content">
+                {{ scope.data.text }}
+              </div>
+            </div>
+          </div>
+        </template>
+        <img
+          class="like-pointer"
+          slot="like"
+          :src="$rootPath + '/img/tinder/like-txt.png'"
+        />
+        <img
+          class="nope-pointer"
+          slot="nope"
+          :src="$rootPath + '/img/tinder/nope-txt.png'"
+        />
+        <img
+          class="rewind-pointer"
+          slot="rewind"
+          :src="$rootPath + '/img/tinder/rewind-txt.png'"
+        />
+      </Tinder>
+      <div class="btns">
+        <img
+          :src="$rootPath + '/img/tinder/rewind.png'"
+          @click="decide('rewind')"
+          style="width: 53px"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/nope.png'"
+          @click="decide('nope')"
+          style="width: 65px"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/like.png'"
+          @click="decide('like')"
+          style="width: 65px"
+        />
+        <img
+          :src="$rootPath + '/img/tinder/super-like.png'"
+          @click="decide('super')"
+          style="width: 53px"
+        />
+      </div>
+      <div id="damaku-container" class="damaku-container"></div>
+    </div>
+    
   </div>
 </template>
 

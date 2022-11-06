@@ -3,10 +3,7 @@
     <remote-script
       :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
     ></remote-script>
-    <div id="damaku-player" class="damaku-player">
-      <h1>{{ activityName }}</h1>
-      <div id="damaku-container" class="damaku-container"></div>
-    </div>
+    <!--调整组件顺序-->
     <el-row type="flex" justify="center" align="middle">
       <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
         <el-input
@@ -113,6 +110,10 @@
         </el-input>
       </el-col>
     </el-row>
+    <div id="damaku-player" class="damaku-player">
+      <h1>{{ activityName }}</h1>
+      <div id="damaku-container" class="damaku-container"></div>
+    </div>
   </div>
 </template>
 

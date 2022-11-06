@@ -13,7 +13,7 @@ const danmakuSchema = mongodb.Schema(
     text: { type: String }, // 内容
     dur: { type: Number, default: 4000 }, // 持续时间
     size: { type: Number, default: 25 }, // 文字大小
-    color: { type: Number, default: 0x000000 }, // 文字颜色
+    color: { type: Number, default: 0xffffff }, // 文字颜色
     time: { type: Number }, // 发送时间
     status: {
       type: String,
