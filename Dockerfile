@@ -2,7 +2,7 @@ FROM node:16-buster-slim as dep-builder
 
 LABEL MAINTAINER https://github.com/prnake/Comment9
 
-ARG USE_CHINA_NPM_REGISTRY=0;
+ARG USE_CHINA_NPM_REGISTRY=1;
 RUN ln -sf /bin/bash /bin/sh
 
 RUN apt-get update && apt-get install -yq python3 build-essential dumb-init --no-install-recommends
