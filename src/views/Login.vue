@@ -7,7 +7,7 @@
       label-width="100px"
       class="login-box"
     >
-      <h1 class="login-title">Comment9</h1>
+      <h1 class="login-title">风蓝弹幕墙</h1>
       <h3 class="login-subtitile">{{ $t("management") }}</h3>
       <el-form-item :label="$t('username')" prop="username">
         <el-input type="text" v-model="form.username" />
