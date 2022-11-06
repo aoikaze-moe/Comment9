@@ -24,6 +24,9 @@
         >{{ $t("register") }}</el-button
       >
     </el-form>
+    <div>
+      <a href="https://aoikaze.moe">返回风蓝主站</a>
+    </div>
   </div>
 </template>
 
