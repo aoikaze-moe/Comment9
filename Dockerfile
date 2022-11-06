@@ -2,7 +2,7 @@ FROM node:16-buster-slim as dep-builder
 
 LABEL MAINTAINER https://github.com/prnake/Comment9
 
-ARG USE_CHINA_NPM_REGISTRY=1;
+ARG USE_CHINA_NPM_REGISTRY=0;
 RUN ln -sf /bin/bash /bin/sh
 
 RUN apt-get update && apt-get install -yq python3 build-essential dumb-init --no-install-recommends
@@ -14,6 +14,7 @@ RUN if [ "$USE_CHINA_NPM_REGISTRY" = 1 ]; then \
   echo 'use npm mirror'; yarn config set registry https://registry.npm.taobao.org; \
   fi;
 
+RUN yarn config set strict-ssl false && yarn config set registry https://registry.npmjs.org
 RUN yarn install
 RUN yarn build
 
