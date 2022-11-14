@@ -221,7 +221,7 @@ export default {
         dur: 4000,
         time: 0,
       },
-      color: "rgba(0, 0, 0, 1)",
+      color: "rgba(255, 255, 255, 1)",
       queue: [],
       offset: 0,
       history: [],
@@ -372,7 +372,8 @@ export default {
       });
       this.socket.on("danmaku", (data) => {
         const danmaku = {
-          shadow: data.color == 0xffffff ? true : false,
+          //shadow: data.color == 0xffffff ? true : false,
+          shadow: true,
           ...data.addons,
           mode: data.mode,
           text: data.text,

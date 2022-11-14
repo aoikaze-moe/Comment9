@@ -18,12 +18,121 @@
         :contextmenu="contextmenu"
       ></d-player>
     </div>
+    <el-row type="flex" justify="center" align="middle">
+      <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
+        <el-input
+          class="pad-right-60"
+          type="text"
+          :placeholder="$t('Send friendly danmaku to capture the moment')"
+          v-model="danmaku.text"
+          @keyup.enter.native="sendDanmaku()"
+          :maxlength="wordLimit"
+          :autofocus="true"
+        >
+          <el-popover
+            placement="top-start"
+            slot="prefix"
+            class="sketch"
+            :title="$t('Advanced Settings')"
+            width="250"
+            trigger="click"
+          >
+            <p class="height-5">{{ $t("Color") }}</p>
+            <el-color-picker
+              v-model="color"
+              show-alpha
+              :predefine="[
+                '#ff4500',
+                '#ff8c00',
+                '#ffd700',
+                '#90ee90',
+                '#00ced1',
+                '#1e90ff',
+                '#c71585',
+                '#000000',
+              ]"
+            >
+            </el-color-picker>
+            <div style="margin-top: 20px">
+              <p class="height-5">{{ $t("Danmaku Mode") }}</p>
+              <el-radio-group v-model="danmaku.mode" size="small">
+                <el-radio-button :label="1">{{
+                  $t("Top scrolling")
+                }}</el-radio-button>
+                <el-radio-button :label="2">{{
+                  $t("Bottom scrolling")
+                }}</el-radio-button>
+              </el-radio-group>
+              <el-radio-group v-model="danmaku.mode" size="small">
+                <el-radio-button :label="4">{{ $t("Bottom") }}</el-radio-button>
+                <el-radio-button :label="5">{{ $t("Top") }}</el-radio-button>
+                <el-radio-button :label="6">{{
+                  $t("Reverse")
+                }}</el-radio-button>
+              </el-radio-group>
+            </div>
+            <div style="margin-top: 20px">
+              <p class="height-5">{{ $t("Font Size") }}</p>
+              <el-radio-group v-model="danmaku.size" size="small">
+                <el-radio-button :label="18">{{ $t("Small") }}</el-radio-button>
+                <el-radio-button :label="25">{{
+                  $t("Middle")
+                }}</el-radio-button>
+                <el-radio-button :label="36">{{ $t("Big") }}</el-radio-button>
+              </el-radio-group>
+            </div>
+            <div style="margin-top: 20px">
+              <p class="height-5">{{ $t("Choose Language") }}</p>
+              <el-radio-group
+                v-model="$i18n.locale"
+                size="small"
+                @change="change_language"
+              >
+                <el-radio-button label="zh_CN">简体中文</el-radio-button>
+                <el-radio-button label="zh_TW">繁體中文</el-radio-button>
+              </el-radio-group>
+              <el-radio-group
+                v-model="$i18n.locale"
+                size="small"
+                @change="change_language"
+              >
+                <el-radio-button label="en">English</el-radio-button>
+                <el-radio-button label="ja">日本語</el-radio-button>
+              </el-radio-group>
+            </div>
+            <div style="margin-top: 20px" v-if="username">
+              <p class="height-5">
+                {{ $t("Your nickname:") + " " + username }}
+              </p>
+              <el-button @click="setUsername('')">{{
+                $t("Clear nickname")
+              }}</el-button>
+            </div>
+            <el-button
+              slot="reference"
+              type="text"
+              icon="el-icon-setting"
+            ></el-button>
+          </el-popover>
+          <el-button
+            slot="suffix"
+            type="text"
+            icon="el-icon-s-promotion"
+            @click="sendDanmaku()"
+            >{{ $t("Send") }}</el-button
+          >
+        </el-input>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { io } from "socket.io-client";
 import VueDPlayer from "@/components/VueDPlayer";
+import tinycolor from "tinycolor2";
+import Cookies from "js-cookie";
+
 export default {
   name: "Player",
   props: {
@@ -50,12 +159,76 @@ export default {
       tokenName: "",
       token: "",
       activityName: "弹幕墙",
+      wordLimit: 200,
+      danmaku: {
+        mode: 1,
+        size: 25,
+        dur: 4000,
+        time: 0,
+      },
+      color: "rgba(255, 255, 255, 1)",
+      username: "",
     };
   },
   components: {
     "d-player": VueDPlayer,
   },
   methods: {
+    setUsername(username) {
+      this.username = username;
+      Cookies.set("username", username);
+    },
+    sendDanmaku: async function () {
+      if (!this.username) {
+        this.$prompt(this.$t("Please set your nickname"), this.$t("Notice"), {
+          confirmButtonText: this.$t("Yes"),
+          cancelButtonText: this.$t("No"),
+        })
+          .then(({ value }) => {
+            if (value) {
+              this.setUsername(value);
+              this.$message({
+                type: "success",
+                message: this.$t("Success"),
+              });
+            } else {
+              this.$message({
+                type: "info",
+                message: this.$t("Input field can not be empty"),
+              });
+            }
+          })
+          .catch(() => {});
+        return;
+      }
+      const color = tinycolor(this.color);
+      if (!this.danmaku.text) return;
+      const danmaku = {
+        ...this.danmaku,
+        username: Cookies.get("username"),
+        color: parseInt(color.toHexString().slice(1), 16),
+        addons: {
+          opacity: color.getAlpha(),
+        },
+      };
+      this.socket.emit("push", danmaku);
+      this.danmaku.text = "";
+    },
+    getActivityConfig: async function () {
+      const result = await this.axios
+        .get(this.$rootPath + "/danmaku/config", {
+          params: {
+            activity: this.activityId,
+            name: this.tokenName,
+            token: this.token,
+          },
+        })
+        .then((data) => data.data);
+      if (result.success) {
+        this.activityName = result.data.name;
+        this.wordLimit = result.data.wordLimit || 200;
+      }
+    },
     getActivityName: async function () {
       const result = await this.axios
         .get(this.$rootPath + "/danmaku/config", {
@@ -127,7 +300,8 @@ export default {
       });
       this.socket.on("danmaku", (data) => {
         const danmaku = {
-          shadow: data.color == 0xffffff ? true : false,
+          //shadow: data.color == 0xffffff ? true : false,
+          shadow: true,
           ...data.addons,
           mode: data.mode,
           text: data.text,
@@ -215,6 +389,8 @@ export default {
     },
   },
   mounted() {
+    this.username = Cookies.get("username");
+    this.getActivityConfig();
     this.activityId = this.$route.params.id;
     this.tokenName = this.$route.params.name;
     this.token = this.$route.params.token ? this.$route.params.token : "";

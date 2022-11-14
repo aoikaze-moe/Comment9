@@ -73,6 +73,7 @@
     "Activity Delete": "活动已删除",
     "sender:danmaku": "弹幕发送基础组件",
     "sender:wechat": "微信公众号",
+    "sender:telegram": "Telegram",
     "sender:develop": "开发",
     "filter:default": "常规过滤器",
     "filter:blacklist": "黑名单过滤器",
