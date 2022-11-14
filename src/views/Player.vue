@@ -6,7 +6,7 @@
     <center>
       <h1>{{ activityName }}</h1>
     </center>
-    <div id="damaku-player" class="damaku-player" style="height: 70vh;z-index: 2014;">
+    <div id="damaku-player" class="damaku-player" style="height: 70vh;z-index: 2000;">
       <remote-script
         :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
       ></remote-script>
