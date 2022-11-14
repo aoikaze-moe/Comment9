@@ -31,7 +31,7 @@ const info = function (activity) {
     "defaultDanmakuColor",
     "default danmaku color",
     "String",
-    "#000000"
+    "#ffffff"
   );
 
   tool.setAddons(data.addons, "streamUrl", "streaming url", "String", "");
@@ -122,8 +122,8 @@ const info = function (activity) {
     ["pull"],
     activity.addons.streamUrl ? "" : 'Please set "streamUrl" first.',
     activity.addons.streamUrl
-      ? `${config.host}${config.rootPath}/#/player/${activity.id}/screen/${
-          activity.tokens.get("screen").token
+      ? `${config.host}${config.rootPath}/#/player/${activity.id}/user/${
+          activity.tokens.get("user").token
         }`
       : "",
     "open"

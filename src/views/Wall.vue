@@ -82,7 +82,8 @@ export default {
       });
       this.socket.on("danmaku", (data) => {
         const danmaku = {
-          shadow: data.color == 0xffffff ? true : false,
+          //shadow: data.color == 0xffffff ? true : false,
+          shadow: true,
           ...data.addons,
           mode: data.mode,
           text: data.text,
