@@ -130,6 +130,9 @@
 <script>
 import { io } from "socket.io-client";
 import VueDPlayer from "@/components/VueDPlayer";
+import tinycolor from "tinycolor2";
+import Cookies from "js-cookie";
+
 export default {
   name: "Player",
   props: {
