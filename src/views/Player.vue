@@ -6,7 +6,7 @@
     <center>
       <h1>{{ activityName }}</h1>
     </center>
-    <div id="damaku-player" class="damaku-player" style="height: 70vh">
+    <div id="damaku-player" class="damaku-player" style="height: 70vh;z-index: 2014;">
       <remote-script
         :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
       ></remote-script>
@@ -320,6 +320,18 @@ export default {
         //    const color = parseInt(data.color) || 0;
         //    const postion = parseInt(data.mode) || 1;
         //    context.show(data.text, color, postion);
+      });
+      this.socket.on("push", (data) => {
+        this.$message({
+          type: "success",
+          message: this.$t(data),
+        });
+      });
+      this.socket.on("message", (data) => {
+        this.$message({
+          type: "error",
+          message: this.$t(data),
+        });
       });
       console.log(this.socket);
     },
