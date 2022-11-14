@@ -1,5 +1,8 @@
 <template>
   <div style="padding-left: 15%; padding-right: 15%">
+    <remote-script
+      :src="$rootPath + '/js/CommentCoreLibrary.min.js'"
+    ></remote-script>
     <center>
       <h1>{{ activityName }}</h1>
     </center>
@@ -17,6 +20,9 @@
         :video="video"
         :contextmenu="contextmenu"
       ></d-player>
+    </div>
+    <div style="text-align: center">
+      <h3 class="dender-subtitle">↓在这里发送弹幕↓</h3>
     </div>
     <el-row type="flex" justify="center" align="middle">
       <el-col :xs="{ span: 24 }" :sm="{ span: 22 }" :md="{ span: 20 }">
