@@ -174,16 +174,21 @@ const init = function (activity) {
 };
 
 router.get("/pull", auth.routerActivityByToken, async function (req, res) {
+  const params = Object.assign({}, req.params, req.query, req.body);
   const keysAsync = promisify(redis.keys).bind(redis);
   const getAsync = promisify(redis.get).bind(redis);
   const keys = await keysAsync(`acitvity:${req.activity.id}:danmaku:*`);
+  if (!params.start_id) {
+    params.start_id = 0;
+  }
   if (!keys) {
     res.json({ success: false, reason: "unkown error" });
   } else {
     const danmaku = await Promise.all(
       keys.map(async (key) => JSON.parse(await getAsync(key)))
     );
-    res.json({ success: true, danmaku: danmaku });
+    res.json({
+      success: true, danmaku: danmaku.filter((item) => item.id >= params.start_id) });
   }
 });
 
@@ -228,7 +233,7 @@ const pushDanmaku = function (data, activity, io, callback) {
           callback(new Error(autherr.message));
         } else {
           if (danmaku.status === "publish") {
-            io.of(config.rootPath + "/danmaku")
+            io.of("/danmaku")
               .to(activity.id)
               .emit("danmaku", danmaku.toJSON());
             redis.setex(
